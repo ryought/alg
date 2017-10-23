@@ -4,7 +4,6 @@
 from math import sin, cos, sqrt, pi
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.optimize import fsolve
 
 def generate_f(r, x0):
     def f(x):
@@ -14,7 +13,6 @@ def generate_f(r, x0):
 def bisection(f, a, b):
     s = 0
     for i in range(1000):
-        print(a,b)
         if(abs(a-b) < 1e-10):
             break
         s = (a+b)/2.0
@@ -41,7 +39,6 @@ def main():
     #  (x0を区間内に含む、[2k*pi-pi, 2k*pi+pi]の領域にしか落ちないので)
     x0_raw = np.sqrt(x0**2 + y0**2)
     x0 = ((x0_raw + np.pi) % (2*np.pi)) - np.pi
-    print(x0_raw, x0)
     y0 = z0
 
     # fは球と地面の距離の関数の微分
@@ -58,13 +55,13 @@ def main():
     # -pi ~ piの範囲だけを考える
     # 球の直下以外はありえないから、探索は[x0-r:x0+r]の範囲でOK
     # sqrtが0になってしまうので、微小な値を追加している
-    x_sol = bisection(f, x0-r+1e-10, x0+r-1e-10)
-    print(x_sol)
+    x_sol = bisection(f, x0-r+1e-20, x0+r-1e-20)
+    print('collision position:', x_sol)
 
     # 落ちる時間の計算
     min_distance = y0 - np.sqrt(r**2 - (x_sol - x0)**2) - np.cos(x_sol)
     t = falling_time( min_distance )
-    print(t)
+    print('time:', t)
 
 main()
 

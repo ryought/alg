@@ -29,12 +29,12 @@ def f(t, y):
     r = np.sqrt(np.abs(rx1-rx2)**2 + np.abs(ry1-ry2)**2)
 
     Y = np.array([
-            -G*M*m*(rx2-rx1)/r**3,
-            -G*M*m*(ry2-ry1)/r**3,
+            G*M*m*(rx2-rx1)/r**3,
+            G*M*m*(ry2-ry1)/r**3,
             vx1,
             vy1,
-            -G*M*m*(rx1-rx2)/r**3,
-            -G*M*m*(ry1-ry2)/r**3,
+            G*M*m*(rx1-rx2)/r**3,
+            G*M*m*(ry1-ry2)/r**3,
             vx2,
             vy2                   ])
     return Y
@@ -44,29 +44,10 @@ def test_f():
     print(t, type(t))
 h = 0.001
 
-def test_runge():
-    global h
-    N = 100
-    t = np.zeros((N, 1))
-    y = np.zeros((N, 1))
-    t[0] = 0
-    y[0] = 0.0001
-    for i in range(N-1):
-        t[i+1], y[i+1] = advance(t[i], y[i], lambda t,y: -2*y)
-
-    plt.plot(t, y)
-
-    T = np.linspace(0, N*h, 100)
-    Y = np.exp(-2*T)*y[0]
-
-    plt.plot(T, Y)
-    plt.show()
-
-# test_runge()
 
 def main():
     global h
-    N = 10000
+    N = 1000
     t = np.zeros((N, 8))
     y = np.zeros((N, 8))
     t[0] = 0

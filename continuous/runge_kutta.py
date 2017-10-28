@@ -3,6 +3,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
+from tqdm import tqdm
 
 # dy/dt = f(t,y) の時  y(t) を求める
 
@@ -24,14 +25,16 @@ def f(t, y):
     vx1, vy1, rx1, ry1, vx2, vy2, rx2, ry2 = y
 
     r = np.sqrt(np.abs(rx1-rx2)**2 + np.abs(ry1-ry2)**2)
-
+    # モデルの運動方程式は
+    # M\frac{d^2 r1}{dt^2} = GMm(r')/|r'|^3
+    # m\frac{d^2 r2}{dt^2} = GMm(r')/|r'|^3
     Y = np.array([
-            G*M*m*(rx2-rx1)/r**3,
-            G*M*m*(ry2-ry1)/r**3,
+            G*m*(rx2-rx1)/r**3,
+            G*m*(ry2-ry1)/r**3,
             vx1,
             vy1,
-            G*M*m*(rx1-rx2)/r**3,
-            G*M*m*(ry1-ry2)/r**3,
+            G*M*(rx1-rx2)/r**3,
+            G*M*(ry1-ry2)/r**3,
             vx2,
             vy2                   ])
     return Y
@@ -40,16 +43,15 @@ def test_f():
     t = f(10, np.array([1,2,3,4, 5, 6, 7, 8]))
     print(t, type(t))
 
-h = 1.0e-3
+h = 1.0e-2
 G = 0.1
-M = 100000
-m = 10
+M = 100
+m = 100
 r0 = 10
 a0 = G*m/(2*r0)**2
-v0 = 2.0
-N = 20000
+v0 = np.sqrt(a0 * r0)
+N = 100000
 print(a0, v0, r0)
-
 
 def main2():
     global h, G, M, m, r0, v0, N
@@ -68,7 +70,7 @@ def main():
     y = np.zeros((N, 8))
     t[0] = 0
     y[0] = [0, v0, r0, 0, 0, -v0, -r0, 0]
-    for i in range(N-1):
+    for i in tqdm(range(N-1)):
         t[i+1], y[i+1] = advance(t[i], y[i], f)
     X1, Y1 = y[:,2], y[:,3]
     X2, Y2 = y[:,6], y[:,7]
@@ -78,7 +80,7 @@ def main():
     plt.show()
     
 
-# main()
-main2()
+main()
+# main2()
 
 

@@ -20,9 +20,6 @@ def advance(t, y, f):
 # t, y = (vx1, vy1, rx1, ry1, vx2, vy2, rx2, ry2)
 def f(t, y):
     global G, M, m
-    G = 0.1
-    M = 1000
-    m = 1000
     Y = np.zeros_like(y)
     vx1, vy1, rx1, ry1, vx2, vy2, rx2, ry2 = y
 
@@ -42,18 +39,36 @@ def f(t, y):
 def test_f():
     t = f(10, np.array([1,2,3,4, 5, 6, 7, 8]))
     print(t, type(t))
-h = 0.001
 
+h = 1.0e-3
+G = 0.1
+M = 100000
+m = 10
+r0 = 10
+a0 = G*m/(2*r0)**2
+v0 = 2.0
+N = 20000
+print(a0, v0, r0)
+
+
+def main2():
+    global h, G, M, m, r0, v0, N
+    t = np.zeros((N, 2))
+    y = np.zeros((N, 2))
+    t[0] = 0
+    y[0] = [10, 0]
+    for i in range(N-1):
+        t[i+1], y[i+1] = advance(t[i], y[i], lambda t, y: np.array([y[1], -y[0]]))
+    plt.plot(t, y[:,0])
+    plt.show()
 
 def main():
-    global h
-    N = 1000
+    global h, G, M, m, r0, v0, N
     t = np.zeros((N, 8))
     y = np.zeros((N, 8))
     t[0] = 0
-    y[0] = [0, 4, 10, 0, 0, -4, -10, 0]
+    y[0] = [0, v0, r0, 0, 0, -v0, -r0, 0]
     for i in range(N-1):
-        print(i)
         t[i+1], y[i+1] = advance(t[i], y[i], f)
     X1, Y1 = y[:,2], y[:,3]
     X2, Y2 = y[:,6], y[:,7]
@@ -63,5 +78,7 @@ def main():
     plt.show()
     
 
-main()
+# main()
+main2()
+
 

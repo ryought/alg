@@ -6,6 +6,8 @@ https://ja.wikipedia.org/wiki/%E3%83%AB%E3%83%B3%E3%82%B2%EF%BC%9D%E3%82%AF%E3%8
 http://kurodalab.bs.s.u-tokyo.ac.jp/ja/member/Yugi/Textbook/chapter3.pdf
 
 
+\footnote{ \url{ http://equal-l2-works.hatenablog.com/entry/2015/09/22/094013 } }
+\footnote{ \url{http://kurodalab.bs.s.u-tokyo.ac.jp/ja/member/Yugi/Textbook/chapter3.pdf }}
 
 ## よくみる4次のRK4のイメージ
 http://hooktail.org/computer/index.php?Runge-Kutta%CB%A1

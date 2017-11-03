@@ -100,3 +100,93 @@ devideByTen = (/10)
 -- (/10) :: Fractional a => a -> a
 applyTwice :: (a -> a) -> a -> a
 applyTwice f x = f (f x)
+
+isLarge :: (Ord a, Num a) => a -> String
+isLarge x
+  | x > 10    = "yep"
+  | otherwise = "nppe"
+
+
+multthree2 :: (Num a) => a -> a -> a
+multthree2 x y = x * y
+
+multalt2 :: (Num a) => a -> a
+multalt2 x  = let aa = multthree2 10
+    in aa x
+
+compareWithHundred :: (Num a, Ord a) => a -> Ordering
+compareWithHundred = compare 100
+-- compareWithHundred x = compare 100 x
+
+zipWith' :: (a -> b -> c) -> [a] -> [b] -> [c]
+zipWith' _ [] _          = []
+zipWith' _ _ []          = []
+zipWith' f (x:xs) (y:ys) = f x y : zipWith' f xs ys
+
+
+flip' :: (a -> b -> c) -> (b -> a -> c)
+flip' f = g
+  where g x y = f y x
+-- zipWith' (flip' div) [2, 2 ..] [10, 8, 6, 4, 2]
+
+flipp :: (a -> b -> c) -> (b -> a -> c)
+flipp f x y = f y x
+
+flipppp :: (a -> b -> c) -> b -> a -> c  
+flipppp f = \x y -> f y x  
+
+-- map map (map (^2)) [[1,2],[3,4,5,6],[7,8]]  
+-- map (+3) [1,5,3,1,6] and [x+3 | x <- [1,5,3,1,6]]
+-- filter 
+filter' :: (a -> Bool) -> [a] -> [a]
+filter' _ [] = []
+filter' p (x:xs)
+  | p x = x:filter p xs -- guard  | <condition> = <value>
+  | otherwise = filter p xs
+  -- let notNull x = not (null x) in filter notNull
+  -- [[1,2,3],[],[3,4,5],[2,2],[],[],[]]  
+  
+largestDivisable :: (Integral a) => a
+largestDivisable = head (filter p [1000000, 999999 ..] )
+  where p x = x `mod` 3829 == 0
+
+suuum :: (Integral a) => a
+suuum = sum (takeWhile (<10000) (filter odd (map (^2) [1 ..])))
+
+
+chain :: (Integral a) => a -> [a]
+chain 1 = [1]
+chain n 
+  | even n = n:chain (n `div` 2)
+  | odd n = n:chain (n*3 + 1)
+
+numLongChains :: Int
+numLongChains = length (filter isLong (map chain [1 .. 100]))
+  where isLong xs = length xs > 15
+
+numLongChains2 :: Int
+numLongChains2 = length (filter (\xs -> length xs > 15) (map chain [1 .. 100]))
+
+hoge :: (Num a, Fractional a) => a -> a -> a
+hoge = \a -> \b -> (a*30 + 3)/b
+
+addThree' :: (Num a) => a -> a -> a -> a
+addThree' = \x -> \y -> \z -> x + y + z
+
+sum2 :: (Num a) => [a] -> a
+sum2 xs = foldl (\acc x -> acc + x) 0 xs
+-- left fold
+
+sum3 :: (Num a) => [a] -> a
+sum3 = foldl (+) 0
+
+-- foldr/foldl 走査するのに使える
+map' :: (a -> b) -> [a] -> [b]
+map' f xs = foldr (\x acc -> f x : acc) [] xs
+-- map' f xs = foldl (\acc x -> acc ++ [f x]) [] xs
+
+rightassociativefunctionapplication :: Int
+rightassociativefunctionapplication = sum $ filter (> 10) $ map (*2) [2 .. 10]
+
+hogehoge :: Bool
+hogehoge = and $ map (>4) [5, 6, 7, 8]

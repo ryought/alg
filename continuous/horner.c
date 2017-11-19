@@ -40,7 +40,7 @@ void horner_and_neville(int n, double* an) {
   for(int i=0; i<6; i++) {
     /* P[i][0] = v[i]; //f(x_i)を入れる */
     P[i][0] = v[i]; //f(x_i)を入れる
-    printf("%d, 0, %25.20lf\n", i, P[i][0]);
+    /* printf("%d, 0, %25.20lf\n", i, P[i][0]); */
   }
   for(int j=1; j<6; j++){
     // ながさj+1
@@ -48,10 +48,11 @@ void horner_and_neville(int n, double* an) {
       xj = 0.5 + 0.1*k;
       xk = 0.5 + 0.1*(k+j);
       P[k][j] = ( (X-xk)*P[k][j-1] - (X-xj)*P[k+1][j-1] ) / (xj - xk); 
-      printf("%d, %d, %25.20lf\n", k, j, P[k][j]);
+      /* printf("%d, %d, %25.20lf\n", k, j, P[k][j]); */
     }
   }
   interpolated = P[0][5];
+  printf("interpolated: %f, %25.20lf\n", X, interpolated);
 
 
   // 誤差の判定
@@ -64,7 +65,7 @@ void horner_and_neville(int n, double* an) {
   }
   // double型小数を表示する
   // 全体桁数25,小数点以下桁数20
-  printf("%f, %25.20lf\n", X, exact);
+  printf("exact: %f, %25.20lf\n", X, exact);
 
   // ずれ
   printf("error: %25.20lf\n", interpolated - exact);
@@ -91,7 +92,6 @@ int main(void) {
     E[i] = 1/frac(i);
     printf("%lf\n", E[i]);
   }
-
   horner_and_neville(10, E);
 
   return 0;

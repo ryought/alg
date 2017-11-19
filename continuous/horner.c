@@ -94,7 +94,6 @@ int main(void) {
   double E[10];
   for(int i=0; i<10; i++) {
     E[i] = 1/frac(i);
-    printf("%lf\n", E[i]);
   }
   horner_and_neville(10, E);
 
@@ -102,10 +101,10 @@ int main(void) {
   double L[6];
   for(int i=0; i<6; i++) {
     L[i] = log(0.5 + 0.1*i);
-    printf("%lf\n", L[i]);
   }
-  printf("%lf\n", neville(L));
-  printf("ex: %lf\n", log(0.75));
+  printf("interpolated: %lf\n", neville(L));
+  printf("exact: %lf\n", log(0.75));
+  printf("error: %25.20lf\n", neville(L)-log(0.75));
 
   return 0;
 }

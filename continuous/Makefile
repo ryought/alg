@@ -2,9 +2,11 @@ MD = pandoc -f markdown_github+footnotes+header_attributes+tex_math_dollars+comp
 
 .SUFFIXES: .md .pdf
 .PHONY: all
-all: 02.pdf report03.pdf
+all: 02.pdf report03.pdf report04.pdf
 .md.pdf: 
 	$(MD) $< -o $@
+horner: horner.c
+	gcc -Wall horner.c -o horner
 run:
 	gcc epsilon.c
 	./a.out
